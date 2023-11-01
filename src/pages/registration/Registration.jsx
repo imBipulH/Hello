@@ -81,7 +81,7 @@ const Registration = () => {
             resetField();
             setTimeout(() => {
               navigate("/login");
-            }, 3000);
+            }, 2000);
           });
         })
         .catch((error) => {
@@ -113,7 +113,7 @@ const Registration = () => {
         />
         <div>
           <h1 className="font-nun text-[34px] font-bold">
-            Get started with easily register
+            Get started with easily register!
           </h1>
           <p className="text-xl opacity-[0.5] mt-3 font-nun">
             Free register <span className="text-[#808080]">and</span> you can
