@@ -113,7 +113,10 @@ const Login = () => {
       signInWithEmailAndPassword(auth, user.email, user.password)
         .then((user) => {
           dispatch(userLoginInfo(user.user));
-          console.log(user.user);
+          localStorage.setItem(
+            "userLoginInfo",
+            JSON.stringify(userLoginInfo(user.user))
+          );
           setLoading(false);
           toast.success("Login successful");
           setTimeout(() => {

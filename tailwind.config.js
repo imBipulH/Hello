@@ -21,6 +21,10 @@ export default {
       colors: {
         dBlue: "#11175D",
         primary: "#5F35F5",
+        lightGray: "rgba(77, 77, 77, 0.75)",
+      },
+      boxShadow: {
+        "3xl": "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
       },
     },
   },
