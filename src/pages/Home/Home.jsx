@@ -7,12 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Home = () => {
-<<<<<<< HEAD
-  return (
-    <div>
-      <div>This is homepage</div>
-    </div>
-=======
   const auth = getAuth();
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   const [verify, setVerify] = useState(false);
@@ -55,7 +49,6 @@ const Home = () => {
         </div>
       )}
     </>
->>>>>>> eec8ffc5ddfd34caaa8537e9708d4e9c66cf538c
   );
 };
 

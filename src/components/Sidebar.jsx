@@ -8,10 +8,17 @@ import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadString,
+} from "firebase/storage";
 
 const Sidebar = () => {
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
   const cropperRef = createRef();
 
   const auth = getAuth();
@@ -34,7 +41,25 @@ const Sidebar = () => {
     setProfileModal(true);
   };
 
-  //Crooper Image
+  const getCropData = () => {
+    if (typeof cropperRef.current?.cropper !== "undefined") {
+      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+      const storage = getStorage();
+      const storageRef = ref(storage, "Profile-photo");
+
+      const message4 = cropperRef.current?.cropper
+        .getCroppedCanvas()
+        .toDataURL();
+      uploadString(storageRef, message4, "data_url").then(() => {
+        getDownloadURL(storageRef).then((downloadURL) => {
+          setProfilePhoto(downloadURL);
+          setProfileModal(false);
+        });
+      });
+    }
+  };
+
+  //Crooper
   const onchange = (e) => {
     console.log(e.target.files[0]);
     e.preventDefault();
@@ -89,25 +114,33 @@ const Sidebar = () => {
                 guides={true}
               />
 
-              <button className="text-xl mr-5 border border-primary bg-primary px-4 py-1 rounded-lg text-white">
-                Upload
-              </button>
-              <button
-                className="text-xl border border-red-400 px-4 py-1 rounded-lg text-red-600"
-                onClick={() => setProfileModal(false)}
-              >
-                Cancel
-              </button>
+              <div className="mt-5">
+                <button
+                  onClick={getCropData}
+                  className="text-xl mr-5 border border-primary bg-primary px-4 py-1 rounded-lg text-white"
+                >
+                  Upload
+                </button>
+                <button
+                  className="text-xl border border-red-400 px-4 py-1 rounded-lg text-red-600"
+                  onClick={() => setProfileModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </>
       ) : (
         <div className="w-[186px] bg-primary select-none rounded-[20px] flex justify-left gap-10 flex-col h-screen">
           <div className="flex select-none h-[100px] w-[100px] group m-auto rounded-full justify-center mt-[38px] mb-[78px] relative  ">
-            <img
-              className="h-[100px] w-[100px] rounded-full"
-              src="../../src/assets/profile_img.jpg"
-            />
+            {profilePhoto ? (
+              <img
+                className="h-[100px] w-[100px] rounded-full"
+                src={profilePhoto}
+              />
+            ) : null}
+
             <div
               onClick={handleProfileClick}
               className="absolute cursor-pointer flex justify-center items-center text-4xl transition-all duration-300 text-white h-full group-hover:w-full rounded-full bg-[#0000005d] z-20 "
