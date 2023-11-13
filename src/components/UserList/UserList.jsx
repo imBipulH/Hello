@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useSelector } from "react-redux";
 
 const JoinBtn = () => {
   return (
@@ -10,32 +13,22 @@ const JoinBtn = () => {
   );
 };
 
-const ListItem = () => {
-  return (
-    <>
-      <div className="flex gap-4 items-center border-b py-[10px] first: my-3  ">
-        <img
-          src="../../../src/assets/profile_img.jpg"
-          alt="name"
-          className="w-[70px] h-[70px] rounded-full"
-        />
-        <div className="flex w-full justify-between items-center">
-          <div className="">
-            <p className="text-lg font-pops font-semibold">Bipul Hajong</p>
-            <p className="text-lightGray text-sm font-pops font-medium">
-              Hi Guys, what's up.
-            </p>
-          </div>
-          <div>
-            <JoinBtn />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
 const UserList = () => {
+  const db = getDatabase();
+  const [userLists, setUserLists] = useState([]);
+  const data = useSelector((state) => state.userLoginInfo.userInfo);
+  useEffect(() => {
+    const userRef = ref(db, "users/");
+    onValue(userRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        if (data.uid != item.key) {
+          arr.push(item.val());
+        }
+      });
+      setUserLists(arr);
+    });
+  }, []);
   return (
     <>
       <div className="py-4">
@@ -45,11 +38,31 @@ const UserList = () => {
             <BiDotsVerticalRounded />
           </div>
           <div className="overflow-y-scroll  h-[300px]">
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
+            {userLists.map((item) => (
+              <div
+                className="flex gap-4 items-center border-b py-[10px] first: my-3 "
+                key={item}
+              >
+                <img
+                  src="../../../src/assets/profile_img.jpg"
+                  alt="name"
+                  className="w-[70px] h-[70px] rounded-full"
+                />
+                <div className="flex w-full justify-between items-center">
+                  <div className="">
+                    <p className="text-lg font-pops font-semibold">
+                      {item.username}
+                    </p>
+                    <p className="text-lightGray text-sm font-pops font-medium">
+                      {item.email}
+                    </p>
+                  </div>
+                  <div>
+                    <JoinBtn />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -101,23 +101,24 @@ const Sidebar = () => {
                   style={{ width: "100%", height: "100%" }}
                 ></div>
               </div>
-
-              <Cropper
-                ref={cropperRef}
-                style={{ height: 400, width: 400 }}
-                zoomTo={0.5}
-                initialAspectRatio={1}
-                preview=".img-preview"
-                src={image}
-                viewMode={1}
-                minCropBoxHeight={10}
-                minCropBoxWidth={10}
-                background={false}
-                responsive={true}
-                autoCropArea={1}
-                checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-                guides={true}
-              />
+              {image && (
+                <Cropper
+                  ref={cropperRef}
+                  style={{ height: 400, width: 400 }}
+                  zoomTo={0.5}
+                  initialAspectRatio={1}
+                  preview=".img-preview"
+                  src={image}
+                  viewMode={1}
+                  minCropBoxHeight={10}
+                  minCropBoxWidth={10}
+                  background={false}
+                  responsive={true}
+                  autoCropArea={1}
+                  checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+                  guides={true}
+                />
+              )}
 
               <div className="mt-5">
                 <button
