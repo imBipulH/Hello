@@ -4,7 +4,7 @@ const JoinBtn = () => {
   return (
     <>
       <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
-        Join
+        +
       </button>
     </>
   );
@@ -35,13 +35,13 @@ const ListItem = () => {
   );
 };
 
-const MyGroups = () => {
+const UserList = () => {
   return (
     <>
       <div className="py-4">
-        <div className="w-[427px]  overflow-hidden  h-[387px] p-5 rounded-b-2xl ml-11 shadow-3xl">
+        <div className="w-[427px]  overflow-hidden  h-[451px] p-5 rounded-b-2xl ml-11 shadow-3xl">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-xl font-pops font-semibold">Friends</h1>
+            <h1 className="text-xl font-pops font-semibold">User List</h1>
             <BiDotsVerticalRounded />
           </div>
           <div className="overflow-y-scroll  h-[300px]">
@@ -57,4 +57,4 @@ const MyGroups = () => {
   );
 };
 
-export default MyGroups;
+export default UserList;

@@ -1,4 +1,5 @@
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { FiSearch } from "react-icons/fi";
 
 const JoinBtn = () => {
   return (
@@ -35,13 +36,13 @@ const ListItem = () => {
   );
 };
 
-const MyGroups = () => {
+const FriendRquest = () => {
   return (
     <>
       <div className="py-4">
         <div className="w-[427px]  overflow-hidden  h-[387px] p-5 rounded-b-2xl ml-11 shadow-3xl">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-xl font-pops font-semibold">Friends</h1>
+            <h1 className="text-xl font-pops font-semibold">Friend Request</h1>
             <BiDotsVerticalRounded />
           </div>
           <div className="overflow-y-scroll  h-[300px]">
@@ -57,4 +58,4 @@ const MyGroups = () => {
   );
 };
 
-export default MyGroups;
+export default FriendRquest;

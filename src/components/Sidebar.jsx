@@ -4,7 +4,7 @@ import { AiFillMessage, AiFillSetting } from "react-icons/ai";
 import { BsBellFill } from "react-icons/bs";
 import { ImExit } from "react-icons/im";
 import { BiUpload } from "react-icons/bi";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
@@ -14,8 +14,12 @@ import {
   ref,
   uploadString,
 } from "firebase/storage";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const data = useSelector((state) => state.userLoginInfo.userInfo);
+  console.log(data.photoURL);
+  console.log(data.uid);
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const [profilePhoto, setProfilePhoto] = useState("");
@@ -45,8 +49,7 @@ const Sidebar = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
       const storage = getStorage();
-      const storageRef = ref(storage, "Profile-photo");
-
+      const storageRef = ref(storage, data.uid);
       const message4 = cropperRef.current?.cropper
         .getCroppedCanvas()
         .toDataURL();
@@ -54,6 +57,9 @@ const Sidebar = () => {
         getDownloadURL(storageRef).then((downloadURL) => {
           setProfilePhoto(downloadURL);
           setProfileModal(false);
+          updateProfile(auth.currentUser, {
+            photoURL: downloadURL,
+          });
         });
       });
     }
@@ -61,7 +67,6 @@ const Sidebar = () => {
 
   //Crooper
   const onchange = (e) => {
-    console.log(e.target.files[0]);
     e.preventDefault();
     let files;
     if (e.dataTransfer) {
@@ -132,14 +137,12 @@ const Sidebar = () => {
           </div>
         </>
       ) : (
-        <div className="w-[186px] bg-primary select-none rounded-[20px] flex justify-left gap-10 flex-col h-screen">
-          <div className="flex select-none h-[100px] w-[100px] group m-auto rounded-full justify-center mt-[38px] mb-[78px] relative  ">
-            {profilePhoto ? (
-              <img
-                className="h-[100px] w-[100px] rounded-full"
-                src={profilePhoto}
-              />
-            ) : null}
+        <div className="w-[186px] bg-primary select-none rounded-[20px] flex justify-left flex-col h-screen">
+          <div className="flex select-none h-[100px] w-[100px] group m-auto rounded-full justify-center mt-[38px] mb-[16px] relative  ">
+            <img
+              className="h-[100px] w-[100px] rounded-full"
+              src={data.photoURL}
+            />
 
             <div
               onClick={handleProfileClick}
@@ -148,6 +151,9 @@ const Sidebar = () => {
               <BiUpload className="group-hover:block hidden" />
             </div>
           </div>
+          <h2 className="text-xl text-white mb-16 font-pops font-semibold text-center">
+            {data.displayName}
+          </h2>
           <div className="flex h-full  justify-between flex-col">
             <div className="mb-20 flex flex-col gap-4">
               <div className=" ml-6 py-5 pl-11 relative after:absolute after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
