@@ -5,12 +5,15 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "../../index.css";
+import { getDatabase, ref, set } from "firebase/database";
 
 const Registration = () => {
   const auth = getAuth();
+  const db = getDatabase();
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
@@ -52,6 +55,7 @@ const Registration = () => {
 
   const submit = () => {
     const emailReges = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log(userData.userName);
     let newErrors = {};
     if (!userData.email) {
       newErrors.email = "Plase enter a email address";
@@ -75,14 +79,30 @@ const Registration = () => {
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email)
     ) {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)
-        .then(() => {
-          sendEmailVerification(auth.currentUser).then(() => {
-            toast.success("Registration done");
-            resetField();
-            setTimeout(() => {
-              navigate("/login");
-            }, 2000);
-          });
+        .then((userCredential) => {
+          const user = userCredential;
+          console.log(userData);
+          console.log(user, "new User");
+          updateProfile(auth.currentUser, {
+            displayName: userData.userName,
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          })
+            .then(() => {
+              sendEmailVerification(auth.currentUser).then(() => {
+                toast.success("Registration done");
+                resetField();
+                setTimeout(() => {
+                  navigate("/login");
+                }, 1000);
+              });
+            })
+            .then(() => {
+              console.log(auth.currentUser);
+              set(ref(db, "users/" + user.user.uid), {
+                username: user.user.displayName,
+                email: user.user.email,
+              });
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
