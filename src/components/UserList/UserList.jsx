@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useSelector } from "react-redux";
 
-const JoinBtn = () => {
+// eslint-disable-next-line react/prop-types
+const JoinBtn = ({ requestSent }) => {
   return (
     <>
       <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
-        +
+        {requestSent ? "Sent" : "+"}
       </button>
     </>
   );
@@ -16,19 +17,56 @@ const JoinBtn = () => {
 const UserList = () => {
   const db = getDatabase();
   const [userLists, setUserLists] = useState([]);
+  const [sentRequestLists, setSentRequestLists] = useState([]);
+  const [requestSent, setRequestSent] = useState(false);
   const data = useSelector((state) => state.userLoginInfo.userInfo);
+
   useEffect(() => {
     const userRef = ref(db, "users/");
     onValue(userRef, (snapshot) => {
       let arr = [];
       snapshot.forEach((item) => {
         if (data.uid != item.key) {
-          arr.push(item.val());
+          arr.push({ ...item.val(), userid: item.key });
         }
       });
       setUserLists(arr);
     });
   }, []);
+
+  const handleFriendRequest = (item) => {
+    //check friendrequest sent or not
+    const userRef = ref(db, "friendrequest/");
+    onValue(userRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push(item.val());
+      });
+      setSentRequestLists(arr);
+    });
+    //finsish friendrequest sent or not checking
+    if (
+      //sentRequestLists.includes(item.userid) &&
+      //sentRequestLists.includes(data.uid)
+      sentRequestLists.some(
+        (request) =>
+          request.senderid === data.uid && request.receiverid === item.userid
+      )
+    ) {
+      console.log("already sent request", item);
+    } else {
+      console.log("just now sending", item);
+      setRequestSent(true);
+      set(push(ref(db, "friendrequest/")), {
+        sendername: data.displayName,
+        senderid: data.uid,
+        receivername: item.username,
+        receiverid: item.userid,
+        receiveremail: item.email,
+      });
+    }
+  };
+
   return (
     <>
       <div className="py-4">
@@ -57,8 +95,8 @@ const UserList = () => {
                       {item.email}
                     </p>
                   </div>
-                  <div>
-                    <JoinBtn />
+                  <div onClick={() => handleFriendRequest(item)}>
+                    <JoinBtn requestSent={requestSent} />
                   </div>
                 </div>
               </div>

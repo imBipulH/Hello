@@ -1,42 +1,42 @@
+import { getDatabase, onValue, ref, remove } from "firebase/database";
+import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { FiSearch } from "react-icons/fi";
 
-const JoinBtn = () => {
+// eslint-disable-next-line react/prop-types
+const JoinBtn = ({ onCancel }) => {
   return (
     <>
-      <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
-        Join
+      <button
+        onClick={onCancel}
+        className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md"
+      >
+        Cancel
       </button>
     </>
   );
 };
 
-const ListItem = () => {
-  return (
-    <>
-      <div className="flex gap-4 items-center border-b py-[10px] first: my-3  ">
-        <img
-          src="../../../src/assets/profile_img.jpg"
-          alt="name"
-          className="w-[70px] h-[70px] rounded-full"
-        />
-        <div className="flex w-full justify-between items-center">
-          <div className="">
-            <p className="text-lg font-pops font-semibold">Bipul Hajong</p>
-            <p className="text-lightGray text-sm font-pops font-medium">
-              Hi Guys, what's up.
-            </p>
-          </div>
-          <div>
-            <JoinBtn />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
 const FriendRquest = () => {
+  const db = getDatabase();
+  const [sentRequest, setSentRequest] = useState([]);
+
+  useEffect(() => {
+    const userRef = ref(db, "friendrequest/");
+    onValue(userRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push({ ...item.val(), requestId: item.key });
+      });
+      setSentRequest(arr);
+    });
+  }, [db]);
+
+  const handleCancelRequest = (requestId) => {
+    const requestRef = ref(db, `friendrequest/${requestId}`);
+    remove(requestRef);
+    console.log(requestRef, "cancelled");
+  };
+
   return (
     <>
       <div className="py-4">
@@ -46,11 +46,34 @@ const FriendRquest = () => {
             <BiDotsVerticalRounded />
           </div>
           <div className="overflow-y-scroll  h-[300px]">
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
+            {sentRequest.map((item) => (
+              <div
+                key={item}
+                className="flex gap-4 items-center border-b py-[10px] first: my-3  "
+              >
+                <img
+                  src="../../../src/assets/profile_img.jpg"
+                  alt="name"
+                  className="w-[70px] h-[70px] rounded-full"
+                />
+                <div className="flex w-full justify-between items-center">
+                  <div className="">
+                    <p className="text-lg font-pops font-semibold">
+                      {item.receivername}
+                    </p>
+                    <p className="text-lightGray text-sm font-pops font-medium">
+                      {item.receiveremail}
+                    </p>
+                  </div>
+                  <div>
+                    <JoinBtn
+                      onClick={console.log("clicked cancel button")}
+                      onCancel={() => handleCancelRequest(item.requestId)}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
