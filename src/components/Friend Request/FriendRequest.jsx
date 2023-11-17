@@ -1,16 +1,24 @@
-import { getDatabase, onValue, ref, remove } from "firebase/database";
+import {
+  getDatabase,
+  onValue,
+  ref,
+  set,
+  remove,
+  push,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
-const JoinBtn = ({ onCancel }) => {
+const JoinBtn = ({ onCancel, btnName }) => {
   return (
     <>
       <button
         onClick={onCancel}
         className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md"
       >
-        Cancel
+        {btnName}
       </button>
     </>
   );
@@ -19,17 +27,28 @@ const JoinBtn = ({ onCancel }) => {
 const FriendRquest = () => {
   const db = getDatabase();
   const [sentRequest, setSentRequest] = useState([]);
+  const data = useSelector((state) => state.userLoginInfo.userInfo);
 
   useEffect(() => {
     const userRef = ref(db, "friendrequest/");
     onValue(userRef, (snapshot) => {
       let arr = [];
       snapshot.forEach((item) => {
-        arr.push({ ...item.val(), requestId: item.key });
+        if (item.val().receiverid === data.uid) {
+          arr.push({ ...item.val(), requestId: item.key });
+        }
       });
       setSentRequest(arr);
     });
-  }, [db]);
+  }, []);
+
+  const handleAccept = (item) => {
+    set(push(ref(db, "friend/")), {
+      ...item,
+    }).then(() => {
+      remove(ref(db, "friendrequest/"));
+    });
+  };
 
   const handleCancelRequest = (requestId) => {
     const requestRef = ref(db, `friendrequest/${requestId}`);
@@ -59,16 +78,22 @@ const FriendRquest = () => {
                 <div className="flex w-full justify-between items-center">
                   <div className="">
                     <p className="text-lg font-pops font-semibold">
-                      {item.receivername}
+                      {item.sendername}
                     </p>
                     <p className="text-lightGray text-sm font-pops font-medium">
-                      {item.receiveremail}
+                      {item.senderemail}
                     </p>
                   </div>
                   <div>
                     <JoinBtn
                       onClick={console.log("clicked cancel button")}
+                      btnName="Cancel"
                       onCancel={() => handleCancelRequest(item.requestId)}
+                    />
+                    <JoinBtn
+                      onClick={console.log("clicked Accept button")}
+                      btnName="Accept"
+                      onCancel={() => handleAccept(item)}
                     />
                   </div>
                 </div>

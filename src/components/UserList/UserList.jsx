@@ -44,10 +44,7 @@ const UserList = () => {
       });
       setSentRequestLists(arr);
     });
-    //finsish friendrequest sent or not checking
     if (
-      //sentRequestLists.includes(item.userid) &&
-      //sentRequestLists.includes(data.uid)
       sentRequestLists.some(
         (request) =>
           request.senderid === data.uid && request.receiverid === item.userid
@@ -59,6 +56,7 @@ const UserList = () => {
       setRequestSent(true);
       set(push(ref(db, "friendrequest/")), {
         sendername: data.displayName,
+        senderemail: data.email,
         senderid: data.uid,
         receivername: item.username,
         receiverid: item.userid,
