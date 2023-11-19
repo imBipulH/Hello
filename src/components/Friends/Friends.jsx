@@ -1,4 +1,6 @@
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useEffect, useState } from "react";
 
 const JoinBtn = () => {
   return (
@@ -36,6 +38,21 @@ const ListItem = () => {
 };
 
 const Friends = () => {
+  const db = getDatabase();
+  const [friends, setFriends] = useState([]);
+
+  useEffect(() => {
+    const friendRef = ref(db, "friend/");
+    onValue(friendRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push({ ...item.val(), id: item.key });
+      });
+      setFriends(arr);
+    });
+  }, []);
+  console.log(friends);
+
   return (
     <>
       <div className="py-4">
@@ -45,11 +62,31 @@ const Friends = () => {
             <BiDotsVerticalRounded />
           </div>
           <div className="overflow-y-scroll  h-[300px]">
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
+            {friends.map((item) => {
+              <div
+                key={item.id}
+                className="flex gap-4 items-center border-b py-[10px] first: my-3  "
+              >
+                <img
+                  src="../../../src/assets/profile_img.jpg"
+                  alt="name"
+                  className="w-[70px] h-[70px] rounded-full"
+                />
+                <div className="flex w-full justify-between items-center">
+                  <div className="">
+                    <p className="text-lg font-pops font-semibold">
+                      {item.sendername}
+                    </p>
+                    <p className="text-lightGray text-sm font-pops font-medium">
+                      {item.senderemail}
+                    </p>
+                  </div>
+                  <div>
+                    <JoinBtn />
+                  </div>
+                </div>
+              </div>;
+            })}
           </div>
         </div>
       </div>

@@ -86,12 +86,10 @@ const FriendRquest = () => {
                   </div>
                   <div>
                     <JoinBtn
-                      onClick={console.log("clicked cancel button")}
                       btnName="Cancel"
                       onCancel={() => handleCancelRequest(item.requestId)}
                     />
                     <JoinBtn
-                      onClick={console.log("clicked Accept button")}
                       btnName="Accept"
                       onCancel={() => handleAccept(item)}
                     />

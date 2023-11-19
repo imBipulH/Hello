@@ -20,6 +20,7 @@ const UserList = () => {
   const [sentRequestLists, setSentRequestLists] = useState([]);
   const [requestSent, setRequestSent] = useState(false);
   const data = useSelector((state) => state.userLoginInfo.userInfo);
+  const [friendRequestList, setFriendRequestList] = useState([]);
 
   useEffect(() => {
     const userRef = ref(db, "users/");
@@ -33,6 +34,18 @@ const UserList = () => {
       setUserLists(arr);
     });
   }, []);
+
+  useEffect(() => {
+    const friendRequestRef = ref(db, "friendrequest/");
+    let arr = [];
+    onValue(friendRequestRef, (snapshot) => {
+      snapshot.forEach((item) => {
+        arr.push(item.val().receiverid + item.val().senderid);
+      });
+      setFriendRequestList(arr);
+    });
+  }, []);
+  console.log(friendRequestList);
 
   const handleFriendRequest = (item) => {
     //check friendrequest sent or not
@@ -93,9 +106,19 @@ const UserList = () => {
                       {item.email}
                     </p>
                   </div>
-                  <div onClick={() => handleFriendRequest(item)}>
-                    <JoinBtn requestSent={requestSent} />
-                  </div>
+
+                  {friendRequestList.includes(item.userid + data.uid) ||
+                  friendRequestList.includes(data.uid + item.userid) ? (
+                    <>
+                      <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
+                        Pending
+                      </button>
+                    </>
+                  ) : (
+                    <div onClick={() => handleFriendRequest(item)}>
+                      <JoinBtn requestSent={requestSent} />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
