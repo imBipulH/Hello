@@ -4,11 +4,11 @@ import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
-const JoinBtn = ({ requestSent }) => {
+const JoinBtn = () => {
   return (
     <>
       <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
-        {requestSent ? "Sent" : "+"}
+        Add Friend
       </button>
     </>
   );
@@ -21,6 +21,19 @@ const UserList = () => {
   const [requestSent, setRequestSent] = useState(false);
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   const [friendRequestList, setFriendRequestList] = useState([]);
+  const [friendList, setFriendList] = useState([]);
+
+  useEffect(() => {
+    const friendRef = ref(db, "friend/");
+    let arr = [];
+    onValue(friendRef, (snapshot) => {
+      snapshot.forEach((item) => {
+        arr.push(item.val().receiverid + item.val().senderid);
+      });
+      setFriendList(arr);
+    });
+  });
+  console.log(friendList, "friendlistsss");
 
   useEffect(() => {
     const userRef = ref(db, "users/");
@@ -45,7 +58,6 @@ const UserList = () => {
       setFriendRequestList(arr);
     });
   }, []);
-  console.log(friendRequestList);
 
   const handleFriendRequest = (item) => {
     //check friendrequest sent or not
@@ -60,7 +72,7 @@ const UserList = () => {
     if (
       sentRequestLists.some(
         (request) =>
-          request.senderid === data.uid && request.receiverid === item.userid
+          request.senderid === data.uid && request.receiverid === item.userid,
       )
     ) {
       console.log("already sent request", item);
@@ -106,9 +118,13 @@ const UserList = () => {
                       {item.email}
                     </p>
                   </div>
-
-                  {friendRequestList.includes(item.userid + data.uid) ||
-                  friendRequestList.includes(data.uid + item.userid) ? (
+                  {friendList.includes(item.userid + data.uid) ||
+                  friendList.includes(data.uid + item.userid) ? (
+                    <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
+                      Friend
+                    </button>
+                  ) : friendRequestList.includes(item.userid + data.uid) ||
+                    friendRequestList.includes(data.uid + item.userid) ? (
                     <>
                       <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
                         Pending
