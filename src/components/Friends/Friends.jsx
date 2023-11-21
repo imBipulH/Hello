@@ -1,9 +1,16 @@
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { getDatabase, ref, onValue, push, set } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  push,
+  set,
+  remove,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const JoinBtn = () => {
+/* const JoinBtn = () => {
   return (
     <>
       <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
@@ -11,9 +18,9 @@ const JoinBtn = () => {
       </button>
     </>
   );
-};
+}; */
 
-const ListItem = () => {
+/* const ListItem = () => {
   return (
     <>
       <div className="flex gap-4 items-center border-b py-[10px] first: my-3  ">
@@ -36,7 +43,7 @@ const ListItem = () => {
       </div>
     </>
   );
-};
+}; */
 
 const Friends = () => {
   const db = getDatabase();
@@ -48,8 +55,12 @@ const Friends = () => {
     onValue(friendRef, (snapshot) => {
       let arr = [];
       snapshot.forEach((item) => {
-        arr.push(item.val());
-        //arr.push({ ...item.val(), id: item.key });
+        if (
+          item.val().receiverid === data.uid ||
+          item.val().senderid === data.uid
+        ) {
+          arr.push({ ...item.val(), key: item.key });
+        }
       });
       setFriends(arr);
     });
@@ -60,11 +71,29 @@ const Friends = () => {
 
   const handleBlock = (item) => {
     const db = getDatabase();
-    set(
-      push(ref(db, "block/"), {
-        ...item,
-      }),
-    );
+    if (data.uid === item.senderid) {
+      set(
+        push(ref(db, "block/"), {
+          blockName: item.receivername,
+          blockId: item.receiverid,
+          blockBy: item.sendername,
+          blockById: item.senderid,
+        }).then(() => {
+          remove(ref(db, "friend/" + item.key));
+        })
+      );
+    } else {
+      set(
+        push(ref(db, "block/"), {
+          blockName: item.sendername,
+          blockId: item.senderid,
+          blockBy: item.receivername,
+          blockById: item.receiverid,
+        }).then(() => {
+          remove(ref(db, "friend/" + item.key));
+        })
+      );
+    }
   };
 
   return (

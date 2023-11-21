@@ -97,7 +97,7 @@ const Registration = () => {
               });
             })
             .then(() => {
-              console.log(auth.currentUser);
+              console.log(auth.currentUser.emailVerified);
               set(ref(db, "users/" + user.user.uid), {
                 username: user.user.displayName,
                 email: user.user.email,

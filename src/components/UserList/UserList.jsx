@@ -15,13 +15,27 @@ const JoinBtn = () => {
 };
 
 const UserList = () => {
+  const data = useSelector((state) => state.userLoginInfo.userInfo);
   const db = getDatabase();
   const [userLists, setUserLists] = useState([]);
   const [sentRequestLists, setSentRequestLists] = useState([]);
   const [requestSent, setRequestSent] = useState(false);
-  const data = useSelector((state) => state.userLoginInfo.userInfo);
   const [friendRequestList, setFriendRequestList] = useState([]);
   const [friendList, setFriendList] = useState([]);
+
+  useEffect(() => {
+    const userRef = ref(db, "users/");
+    onValue(userRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        if (data.uid != item.key) {
+          arr.push({ ...item.val(), userid: item.key });
+         
+        }
+      });
+      setUserLists(arr);
+    });
+  }, []);
 
   useEffect(() => {
     const friendRef = ref(db, "friend/");
@@ -31,20 +45,6 @@ const UserList = () => {
         arr.push(item.val().receiverid + item.val().senderid);
       });
       setFriendList(arr);
-    });
-  });
-  console.log(friendList, "friendlistsss");
-
-  useEffect(() => {
-    const userRef = ref(db, "users/");
-    onValue(userRef, (snapshot) => {
-      let arr = [];
-      snapshot.forEach((item) => {
-        if (data.uid != item.key) {
-          arr.push({ ...item.val(), userid: item.key });
-        }
-      });
-      setUserLists(arr);
     });
   }, []);
 
@@ -72,7 +72,7 @@ const UserList = () => {
     if (
       sentRequestLists.some(
         (request) =>
-          request.senderid === data.uid && request.receiverid === item.userid,
+          request.senderid === data.uid && request.receiverid === item.userid
       )
     ) {
       console.log("already sent request", item);
