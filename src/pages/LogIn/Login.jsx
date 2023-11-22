@@ -91,9 +91,6 @@ const Login = () => {
   };
 
   const handleSubmit = () => {
-    console.log(user.email);
-    console.log(user.password);
-    console.log("Submit");
     let emailReges = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let newError = {};
     if (!user.email) {

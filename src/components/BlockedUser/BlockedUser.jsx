@@ -1,4 +1,11 @@
-import { getDatabase, onValue, ref } from "firebase/database";
+import {
+  getDatabase,
+  onValue,
+  push,
+  ref,
+  remove,
+  set,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -64,6 +71,28 @@ const BlockedUser = () => {
     });
   }, []);
 
+  const handleUnblock = (item) => {
+    console.log(item);
+    const db = getDatabase();
+    set(
+      push(ref(db, "friend/"), {
+        sendername: data.displayName,
+        senderemail: data.email,
+        senderid: data.uid,
+        receivername: item.block,
+        receiverid: item.blockId,
+      }).then(() => {
+        remove(ref(db, "block/", item.blockId)).then(() => {
+          setBlockList((prevBlockList) => {
+            prevBlockList.filter((blockItem) => {
+              blockItem.blockId !== item.blockId;
+            });
+          });
+        });
+      })
+    );
+  };
+
   return (
     <>
       <div className="py-4">
@@ -73,32 +102,39 @@ const BlockedUser = () => {
             <BiDotsVerticalRounded />
           </div>
           <div className="overflow-y-scroll  h-[300px]">
-            {blockList.map((item) => (
-              <div
-                key={item}
-                className="flex gap-4 items-center border-b py-[10px] first: my-3  "
-              >
-                <img
-                  src="../../../src/assets/profile_img.jpg"
-                  alt="name"
-                  className="w-[70px] h-[70px] rounded-full"
-                />
-                <div className="flex w-full justify-between items-center">
-                  <div className="">
-                    <p className="text-lg font-pops font-semibold">
-                      {item.block}
-                    </p>
-                    <p className="text-lg font-pops font-semibold">
-                      {item.blockBy}
-                    </p>
-                    <p className="text-lightGray text-sm font-pops font-medium">
-                      Hi Guys, what's up.
-                    </p>
+            {blockList &&
+              blockList.map((item) => (
+                <div
+                  key={item.blockId}
+                  className="flex gap-4 items-center border-b py-[10px] first: my-3  "
+                >
+                  <img
+                    src="../../../src/assets/profile_img.jpg"
+                    alt="name"
+                    className="w-[70px] h-[70px] rounded-full"
+                  />
+                  <div className="flex w-full justify-between items-center">
+                    <div className="">
+                      <p className="text-lg font-pops font-semibold">
+                        {item.block}
+                      </p>
+                      <p className="text-lg font-pops font-semibold">
+                        {item.blockBy}
+                      </p>
+                      <p className="text-lightGray text-sm font-pops font-medium">
+                        Hi Guys, what's up.
+                      </p>
+                    </div>
+                    <div onClick={() => handleUnblock(item)}>
+                      {item.block && (
+                        <JoinBtn
+                          onClick={() => console.log("unblcok clicked")}
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div>{item.block && <JoinBtn />}</div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>
