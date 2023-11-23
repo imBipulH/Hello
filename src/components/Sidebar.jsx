@@ -138,10 +138,10 @@ const Sidebar = () => {
           </div>
         </>
       ) : (
-        <div className="w-[186px] bg-primary select-none rounded-[20px] flex justify-left flex-col h-screen">
+        <div className="w-[100px] bg-primary select-none rounded-[20px] flex justify-left flex-col h-screen">
           <div className="flex select-none h-[100px] w-[100px] group m-auto rounded-full justify-center mt-[38px] mb-[16px] relative  ">
             <img
-              className="h-[100px] w-[100px] rounded-full"
+              className="h-[80px] w-[80px] rounded-full"
               src={data.photoURL}
             />
 
@@ -152,29 +152,29 @@ const Sidebar = () => {
               <BiUpload className="group-hover:block hidden" />
             </div>
           </div>
-          <h2 className="text-xl text-white mb-16 font-pops font-semibold text-center">
+          <h2 className="text-lg text-white mb-16 font-pops font-semibold text-center">
             {data.displayName}
           </h2>
           <div className="flex h-full  justify-between flex-col">
             <div className="mb-20 flex flex-col gap-4">
-              <div className=" ml-6 py-5 pl-11 relative after:absolute after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
-                <LiaHomeSolid className="text-5xl text-primary bg-white " />
+              <div className=" ml-6 py-5 pl-6 relative after:absolute after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+                <LiaHomeSolid className="text-3xl text-primary bg-white " />
               </div>
-              <div className="ml-6 py-5 pl-11 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
-                <AiFillMessage className="text-5xl text-white  " />
+              <div className="ml-6 py-5 pl-6 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+                <AiFillMessage className="text-3xl text-white  " />
               </div>
-              <div className="ml-6 py-5 pl-11 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
-                <BsBellFill className="text-5xl text-white" />
+              <div className="ml-6 py-5 pl-6 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+                <BsBellFill className="text-3xl text-white" />
               </div>
-              <div className="ml-6 py-5 pl-11 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
-                <AiFillSetting className="text-5xl text-white" />
+              <div className="ml-6 py-5 pl-6 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+                <AiFillSetting className="text-3xl text-white" />
               </div>
             </div>
 
-            <div className=" ml-6 py-5 pl-11 mb-12 relative after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+            <div className="ml-6 py-5 pl-6 mb-12 relative after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
               <ImExit
                 onClick={handleSignOut}
-                className="text-5xl text-white cursor-pointer"
+                className="text-3xl text-white cursor-pointer"
               />
             </div>
           </div>

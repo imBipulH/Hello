@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 const JoinBtn = () => {
   return (
     <>
-      <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
-        Add Friend
+      <button className="px-4 h-[30px] bg-primary text-white text-sm font-semibold rounded-md">
+        Add
       </button>
     </>
   );
@@ -30,7 +30,6 @@ const UserList = () => {
       snapshot.forEach((item) => {
         if (data.uid != item.key) {
           arr.push({ ...item.val(), userid: item.key });
-         
         }
       });
       setUserLists(arr);
@@ -72,7 +71,7 @@ const UserList = () => {
     if (
       sentRequestLists.some(
         (request) =>
-          request.senderid === data.uid && request.receiverid === item.userid
+          request.senderid === data.uid && request.receiverid === item.userid,
       )
     ) {
       console.log("already sent request", item);
@@ -93,12 +92,12 @@ const UserList = () => {
   return (
     <>
       <div className="py-4">
-        <div className="w-[427px]  overflow-hidden  h-[451px] p-5 rounded-b-2xl ml-11 shadow-3xl">
+        <div className="w-full  overflow-hidden p-5 rounded-b-2xl shadow-3xl">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-pops font-semibold">User List</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll  h-[300px]">
+          <div className="overflow-y-scroll h-[300px]">
             {userLists.map((item) => (
               <div
                 className="flex gap-4 items-center border-b py-[10px] first: my-3 "
@@ -107,11 +106,11 @@ const UserList = () => {
                 <img
                   src="../../../src/assets/profile_img.jpg"
                   alt="name"
-                  className="w-[70px] h-[70px] rounded-full"
+                  className="w-[50px] h-[50px] rounded-full"
                 />
                 <div className="flex w-full justify-between items-center">
                   <div className="">
-                    <p className="text-lg font-pops font-semibold">
+                    <p className="text-md font-pops font-semibold">
                       {item.username}
                     </p>
                     <p className="text-lightGray text-sm font-pops font-medium">
@@ -120,13 +119,13 @@ const UserList = () => {
                   </div>
                   {friendList.includes(item.userid + data.uid) ||
                   friendList.includes(data.uid + item.userid) ? (
-                    <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
+                    <button className="px-[22px] h-[30px] bg-primary text-white text-sm font-semibold rounded-md">
                       Friend
                     </button>
                   ) : friendRequestList.includes(item.userid + data.uid) ||
                     friendRequestList.includes(data.uid + item.userid) ? (
                     <>
-                      <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
+                      <button className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-md">
                         Pending
                       </button>
                     </>

@@ -36,20 +36,22 @@ const Home = () => {
   return (
     <>
       {verify ? (
-        <div>
+        <div className="max-w-7xl m-auto ">
           <div className="flex">
             <Sidebar />
-            <div className="flex flex-col">
-              <GroupList />
-              <FriendRquest />
-            </div>
-            <div className="flex flex-col">
-              <Friends />
-              <MyGroups />
-            </div>
-            <div className="flex flex-col">
-              <UserList />
-              <BlockedUser />
+            <div className="w-[1180px] px-4 gap-4 flex justify-between m-auto">
+              <div className="flex w-1/3 flex-col">
+                <GroupList />
+                <FriendRquest />
+              </div>
+              <div className="flex w-1/3 flex-col">
+                <Friends />
+                <MyGroups />
+              </div>
+              <div className="flex w-1/3 flex-col">
+                <UserList />
+                <BlockedUser />
+              </div>
             </div>
           </div>
         </div>
