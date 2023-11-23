@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const JoinBtn = () => {
   return (
     <>
-      <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
+      <button className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-md">
         Join
       </button>
     </>
@@ -83,17 +83,17 @@ const GroupList = () => {
 
   return (
     <>
-      <div>
-        <div className="flex items-center justify-between gap-9 rounded-2xl shadow-3xl ml-11 mb-11 py-4 px-5">
-          <FiSearch className="text-xl" />
-          <input
-            type="text"
-            className="w-full px-2 outline-none"
-            placeholder="search"
-          />
-          <BiDotsVerticalRounded className="text-xl" />
-        </div>
-        <div className="w-[427px] h-[387px] p-5 rounded-b-2xl ml-11 shadow-3xl">
+      <div className="h-1/2">
+        <div className="w-full h-full p-5 rounded-b-2xl shadow-3xl">
+          <div className="flex items-center justify-between rounded-2xl shadow-3xl mb-4 py-4 px-5">
+            <FiSearch className="text-xl" />
+            <input
+              type="text"
+              className="w-full px-2 outline-none"
+              placeholder="search"
+            />
+            <BiDotsVerticalRounded className="text-xl" />
+          </div>
           <div className="flex justify-between items-center mb-4">
             <h1>Group List</h1>
 
@@ -114,57 +114,59 @@ const GroupList = () => {
             )}
             {/* <BiDotsVerticalRounded /> */}
           </div>
-          {show ? (
-            <div>
-              <input
-                onChange={handleInputChange}
-                name="groupName"
-                value={groupName}
-                className="border mt-5 w-full p-2 rounded-lg"
-                type="text"
-                placeholder="Group Name"
-              />
-              <p className="text-red-500">{error.groupName}</p>
-              <input
-                onChange={handleInputChange}
-                name="groupTag"
-                value={groupTag}
-                className="border mt-5 w-full p-2 rounded-lg"
-                type="text"
-                placeholder="Group Tagname"
-              />
-              <p className="text-red-500">{error.groupTag}</p>
-              <button
-                onClick={handleCreateGroup}
-                className="bg-primary mt-5 p-2 rounded-lg w-full text-white"
-              >
-                Create Group
-              </button>
-            </div>
-          ) : (
-            group.map((item) => (
-              <div key={item} className="flex gap-4 items-center ">
-                <img
-                  src="../../../src/assets/profile_img.jpg"
-                  alt="name"
-                  className="w-[70px] h-[70px] rounded-full"
+          <div className="h-[190px] overflow-y-scroll ">
+            {show ? (
+              <div>
+                <input
+                  onChange={handleInputChange}
+                  name="groupName"
+                  value={groupName}
+                  className="border mt-5 w-full p-2 rounded-lg"
+                  type="text"
+                  placeholder="Group Name"
                 />
-                <div className="flex w-full justify-between items-center">
-                  <div className="">
-                    <p className="text-lg font-pops font-semibold">
-                      {item.groupname}
-                    </p>
-                    <p className="text-lightGray text-sm font-pops font-medium">
-                      {item.grouptag}
-                    </p>
-                  </div>
-                  <div>
-                    <JoinBtn />
+                <p className="text-red-500">{error.groupName}</p>
+                <input
+                  onChange={handleInputChange}
+                  name="groupTag"
+                  value={groupTag}
+                  className="border mt-5 w-full p-2 rounded-lg"
+                  type="text"
+                  placeholder="Group Tagname"
+                />
+                <p className="text-red-500">{error.groupTag}</p>
+                <button
+                  onClick={handleCreateGroup}
+                  className="bg-primary mt-5 p-2 rounded-lg w-full text-white"
+                >
+                  Create Group
+                </button>
+              </div>
+            ) : (
+              group.map((item) => (
+                <div key={item} className="flex mb-4 gap-4 items-center">
+                  <img
+                    src="../../../src/assets/profile_img.jpg"
+                    alt="name"
+                    className="w-[50px] h-[50px] rounded-full"
+                  />
+                  <div className="flex w-full justify-between items-center">
+                    <div className="">
+                      <p className="text-sm font-pops font-semibold">
+                        {item.groupname}
+                      </p>
+                      <p className="text-lightGray text-sm font-pops font-medium">
+                        {item.grouptag}
+                      </p>
+                    </div>
+                    <div>
+                      <JoinBtn />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
       </div>
     </>

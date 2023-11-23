@@ -89,14 +89,14 @@ const BlockedUser = () => {
             });
           });
         });
-      })
+      }),
     );
   };
 
   return (
     <>
       <div className="py-4">
-        <div className="w-[427px]  overflow-hidden  h-[387px] p-5 rounded-b-2xl ml-11 shadow-3xl">
+        <div className="w-full overflow-hidden p-5 rounded-b-2xl shadow-3xl">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-pops font-semibold">Blocked User</h1>
             <BiDotsVerticalRounded />
@@ -111,7 +111,7 @@ const BlockedUser = () => {
                   <img
                     src="../../../src/assets/profile_img.jpg"
                     alt="name"
-                    className="w-[70px] h-[70px] rounded-full"
+                    className="w-[50px] h-[50px] rounded-full"
                   />
                   <div className="flex w-full justify-between items-center">
                     <div className="">
