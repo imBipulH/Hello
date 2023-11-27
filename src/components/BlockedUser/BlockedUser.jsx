@@ -89,7 +89,7 @@ const BlockedUser = () => {
             });
           });
         });
-      }),
+      })
     );
   };
 
@@ -101,7 +101,7 @@ const BlockedUser = () => {
             <h1 className="text-xl font-pops font-semibold">Blocked User</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll  h-[300px]">
+          <div className="overflow-y-scroll  h-[150px]">
             {blockList &&
               blockList.map((item) => (
                 <div

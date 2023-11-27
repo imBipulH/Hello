@@ -36,21 +36,31 @@ const Home = () => {
   return (
     <>
       {verify ? (
-        <div className="max-w-7xl m-auto ">
+        <div className="max-w-[1320px] m-auto ">
           <div className="flex">
             <Sidebar />
-            <div className="w-[1180px] px-4 gap-4 flex justify-between m-auto">
-              <div className="flex w-1/3 flex-col">
-                <GroupList />
-                <FriendRquest />
+            <div className="w-[1180px]  flex flex-col m-auto">
+              <div className="flex h-full gap-4 justify-between">
+                <div className="w-1/3">
+                  <GroupList />
+                </div>
+                <div className="w-1/3">
+                  <Friends />
+                </div>
+                <div className="w-1/3">
+                  <UserList />
+                </div>
               </div>
-              <div className="flex w-1/3 flex-col">
-                <Friends />
-                <MyGroups />
-              </div>
-              <div className="flex w-1/3 flex-col">
-                <UserList />
-                <BlockedUser />
+              <div className="flex gap-4 justify-between">
+                <div className="w-1/3">
+                  <FriendRquest />
+                </div>
+                <div className="w-1/3">
+                  <MyGroups />
+                </div>
+                <div className="w-1/3">
+                  <BlockedUser />
+                </div>
               </div>
             </div>
           </div>

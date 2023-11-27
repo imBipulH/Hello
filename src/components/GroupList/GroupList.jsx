@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const JoinBtn = () => {
   return (
     <>
-      <button className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-md">
+      <button className="px-2 py-1 bg-primary text-white text-sm  rounded-sm">
         Join
       </button>
     </>
@@ -83,40 +83,40 @@ const GroupList = () => {
 
   return (
     <>
-      <div className="h-1/2">
-        <div className="w-full h-full p-5 rounded-b-2xl shadow-3xl">
-          <div className="flex items-center justify-between rounded-2xl shadow-3xl mb-4 py-4 px-5">
-            <FiSearch className="text-xl" />
+      <div className="h-full">
+        <div className="w-full h-full px-4 py-2 rounded-b-2xl shadow-3xl">
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-4 py-2 px-5">
+            <FiSearch className="text-xl select-none" />
             <input
               type="text"
               className="w-full px-2 outline-none"
-              placeholder="search"
+              placeholder="Search"
             />
             <BiDotsVerticalRounded className="text-xl" />
           </div>
           <div className="flex justify-between items-center mb-4">
-            <h1>Group List</h1>
+            <h1 className="font-bold">Group List</h1>
 
             {!show ? (
               <button
                 onClick={handleShow}
-                className="bg-primary p-2 text-white rounded-lg"
+                className="bg-primary font-bold text-sm py-1  px-2 text-white rounded-sm"
               >
                 Create Group
               </button>
             ) : (
               <button
                 onClick={() => setShow(false)}
-                className="bg-red-500 p-2 text-white rounded-lg"
+                className="bg-red-500 text-sm py-1 px-2 text-white rounded-sm"
               >
                 Go Back
               </button>
             )}
             {/* <BiDotsVerticalRounded /> */}
           </div>
-          <div className="h-[190px] overflow-y-scroll ">
+          <div className="h-[150px] overflow-y-scroll ">
             {show ? (
-              <div>
+              <div className="">
                 <input
                   onChange={handleInputChange}
                   name="groupName"
@@ -144,11 +144,11 @@ const GroupList = () => {
               </div>
             ) : (
               group.map((item) => (
-                <div key={item} className="flex mb-4 gap-4 items-center">
+                <div key={item} className="flex mb-2 gap-2 items-center">
                   <img
                     src="../../../src/assets/profile_img.jpg"
                     alt="name"
-                    className="w-[50px] h-[50px] rounded-full"
+                    className="w-[40px] h-[40px] rounded-full"
                   />
                   <div className="flex w-full justify-between items-center">
                     <div className="">

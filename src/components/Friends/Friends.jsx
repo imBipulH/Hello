@@ -80,7 +80,7 @@ const Friends = () => {
           blockById: item.senderid,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
-        }),
+        })
       );
     } else {
       set(
@@ -91,20 +91,20 @@ const Friends = () => {
           blockById: item.receiverid,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
-        }),
+        })
       );
     }
   };
 
   return (
     <>
-      <div className="h-1/2 py-4">
+      <div className="h-full">
         <div className="w-fulls overflow-hidden  p-5 rounded-b-2xl  shadow-3xl">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-pops font-semibold">Friends</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll  h-[300px]">
+          <div className="overflow-y-scroll h-[200px]">
             {friends.map((item) => {
               return (
                 <div
@@ -112,7 +112,7 @@ const Friends = () => {
                   className="flex gap-4 items-center border-b py-[10px] first: my-3  "
                 >
                   <img
-                    src="../../../src/assets/profile_img.jpg"
+                    src={item.senderphoto}
                     alt="name"
                     className="w-[50px] h-[50px] rounded-full"
                   />
