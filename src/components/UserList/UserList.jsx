@@ -22,6 +22,7 @@ const UserList = () => {
   const [requestSent, setRequestSent] = useState(false);
   const [friendRequestList, setFriendRequestList] = useState([]);
   const [friendList, setFriendList] = useState([]);
+  
 
   useEffect(() => {
     const userRef = ref(db, "users/");
