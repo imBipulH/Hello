@@ -1,11 +1,11 @@
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, ReactPropTypes } from "react";
 import { LiaHomeSolid } from "react-icons/lia";
 import { AiFillMessage, AiFillSetting } from "react-icons/ai";
 import { BsBellFill } from "react-icons/bs";
 import { ImExit } from "react-icons/im";
 import { BiUpload } from "react-icons/bi";
 import { getAuth, signOut, updateProfile } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import {
@@ -16,7 +16,7 @@ import {
 } from "firebase/storage";
 import { useSelector } from "react-redux";
 
-const Sidebar = () => {
+const Sidebar = ({ active }) => {
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   console.log(data.photoURL);
   console.log(data.uid);
@@ -158,11 +158,19 @@ const Sidebar = () => {
           </h2>
           <div className="flex h-full  justify-between flex-col">
             <div className=" flex flex-col gap-3">
-              <div className="ml-5 py-2 pl-5 relative after:absolute after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
-                <LiaHomeSolid className="text-3xl text-primary bg-white " />
+              <div
+                className={`ml-5 py-2 pl-5 relative after:absolute ${
+                  active == "Home" && "after:bg-white"
+                } after:bg-primary after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}
+              >
+                <Link to="/">
+                  <LiaHomeSolid className="text-3xl text-primary bg-white " />
+                </Link>
               </div>
               <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
-                <AiFillMessage className="text-3xl text-white  " />
+                <Link to="/Message">
+                  <AiFillMessage className="text-3xl text-white" />
+                </Link>
               </div>
               <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
                 <BsBellFill className="text-3xl text-white" />

@@ -8,6 +8,7 @@ import {
 } from "firebase/database";
 import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { FiSearch } from "react-icons/fi";
 import { LiaUtensilSpoonSolid } from "react-icons/lia";
 import { useSelector } from "react-redux";
 
@@ -65,7 +66,15 @@ const FriendRquest = () => {
             <h1 className="text-xl font-pops font-semibold">Friend Request</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll h-[200px]">
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-4 py-2 px-5">
+            <input
+              type="text"
+              className="w-full px-2 outline-none"
+              placeholder="Search"
+            />
+            <FiSearch className="text-xl select-none" />
+          </div>
+          <div className="overflow-y-scroll h-[220px]">
             {sentRequest.map((item) => (
               <div
                 key={item}

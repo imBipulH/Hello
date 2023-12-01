@@ -38,9 +38,9 @@ const Home = () => {
       {verify ? (
         <div className="max-w-[1320px] m-auto ">
           <div className="flex">
-            <Sidebar />
-            <div className="w-[1180px]  flex flex-col m-auto">
-              <div className="flex h-full gap-4 justify-between">
+            <Sidebar active="Home" />
+            <div className="w-[1180px] flex flex-col items-between justify-between m-auto">
+              <div className="flex h-1/2 gap-4 items-center mb-2 justify-between">
                 <div className="w-1/3">
                   <GroupList />
                 </div>

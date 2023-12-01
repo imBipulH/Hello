@@ -84,19 +84,9 @@ const GroupList = () => {
   return (
     <>
       <div className="h-full">
-        <div className="w-full h-full px-4 py-2 rounded-b-2xl shadow-3xl">
-          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-4 py-2 px-5">
-            <FiSearch className="text-xl select-none" />
-            <input
-              type="text"
-              className="w-full px-2 outline-none"
-              placeholder="Search"
-            />
-            <BiDotsVerticalRounded className="text-xl" />
-          </div>
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="font-bold">Group List</h1>
-
+        <div className="w-full h-full p-5 rounded-b-2xl shadow-3xl">
+          <div className="flex justify-between items-cente mb-4">
+            <h1 className="text-xl font-pops font-semibold">Group List</h1>
             {!show ? (
               <button
                 onClick={handleShow}
@@ -112,9 +102,18 @@ const GroupList = () => {
                 Go Back
               </button>
             )}
-            {/* <BiDotsVerticalRounded /> */}
           </div>
-          <div className="h-[150px] overflow-y-scroll ">
+
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-5">
+            <input
+              type="text"
+              className="w-full px-2 outline-none"
+              placeholder="Search"
+            />
+            <FiSearch className="text-xl select-none" />
+          </div>
+          <div className="flex justify-between items-center mb-3"></div>
+          <div className="flex flex-col h-[220px] overflow-y-scroll ">
             {show ? (
               <div className="">
                 <input
@@ -144,7 +143,7 @@ const GroupList = () => {
               </div>
             ) : (
               group.map((item) => (
-                <div key={item} className="flex mb-2 gap-2 items-center">
+                <div key={item} className="flex mb-4 gap-2 items-center ]">
                   <img
                     src="../../../src/assets/profile_img.jpg"
                     alt="name"

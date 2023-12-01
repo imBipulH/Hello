@@ -9,6 +9,7 @@ import {
 } from "firebase/database";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { FiSearch } from "react-icons/fi";
 
 /* const JoinBtn = () => {
   return (
@@ -80,7 +81,7 @@ const Friends = () => {
           blockById: item.senderid,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
-        })
+        }),
       );
     } else {
       set(
@@ -91,7 +92,7 @@ const Friends = () => {
           blockById: item.receiverid,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
-        })
+        }),
       );
     }
   };
@@ -99,22 +100,30 @@ const Friends = () => {
   return (
     <>
       <div className="h-full">
-        <div className="w-fulls overflow-hidden  p-5 rounded-b-2xl  shadow-3xl">
+        <div className="w-full overflow-hidden p-5 rounded-b-2xl  shadow-3xl">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-pops font-semibold">Friends</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll h-[200px]">
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-5">
+            <input
+              type="text"
+              className="w-full px-2 outline-none"
+              placeholder="Search"
+            />
+            <FiSearch className="text-xl select-none" />
+          </div>
+          <div className="overflow-y-scroll h-[220px]">
             {friends.map((item) => {
               return (
                 <div
                   key={item}
-                  className="flex gap-4 items-center border-b py-[10px] first: my-3  "
+                  className="flex gap-4 items-center border-b py-[10px]"
                 >
                   <img
                     src={item.senderphoto}
                     alt="name"
-                    className="w-[50px] h-[50px] rounded-full"
+                    className="w-[40px] h-[40px] rounded-full"
                   />
                   <div className="flex w-full justify-between items-center">
                     <div className="">

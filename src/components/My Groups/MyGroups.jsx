@@ -1,6 +1,7 @@
 import { getDatabase, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { FiSearch } from "react-icons/fi";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
 const JoinBtn = () => {
@@ -36,11 +37,19 @@ const MyGroups = () => {
     <>
       <div className="py-4">
         <div className="w-full  overflow-hidden p-5 rounded-b-2xl shadow-3xl">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-2">
             <h1 className="text-xl font-pops font-semibold">My Groups</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll  h-[150px]">
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-4 py-2 px-5">
+            <input
+              type="text"
+              className="w-full px-2 outline-none"
+              placeholder="Search"
+            />
+            <FiSearch className="text-xl select-none" />
+          </div>
+          <div className="overflow-y-scroll  h-[220px]">
             {group.map((item) => (
               <div key={item} className="flex gap-4 items-center ">
                 <img

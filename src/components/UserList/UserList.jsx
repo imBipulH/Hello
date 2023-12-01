@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useSelector } from "react-redux";
+import { FiSearch } from "react-icons/fi";
 
 // eslint-disable-next-line react/prop-types
 const JoinBtn = () => {
@@ -118,15 +119,15 @@ const UserList = () => {
             <h1 className="text-xl font-pops font-semibold">User List</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div>
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-5">
             <input
-              onChange={handleSearch}
               type="text"
+              className="w-full px-2 outline-none"
               placeholder="Search"
-              className="w-full border-b p-2 text-sm focus:outline-none"
             />
+            <FiSearch className="text-xl select-none" />
           </div>
-          <div className="overflow-y-scroll h-[150px]">
+          <div className="overflow-y-scroll h-[220px]">
             {searchData.length > 0
               ? searchData.map((item) => (
                   <div

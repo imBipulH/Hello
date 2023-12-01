@@ -10,6 +10,7 @@ import Home from "./pages/Home/Home";
 import ForgetPassword from "./pages/ForgetPassword/ForgetPassword";
 import store from "./store";
 import { Provider } from "react-redux";
+import Message from "./pages/Message/Message";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,11 @@ const router = createBrowserRouter([
     path: "/ForgetPassword",
     element: <ForgetPassword />,
   },
+
+  {
+    path: "/Message",
+    element: <Message />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -35,5 +41,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
