@@ -8,6 +8,7 @@ import {
 } from "firebase/database";
 import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { LiaUtensilSpoonSolid } from "react-icons/lia";
 import { useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
@@ -58,20 +59,20 @@ const FriendRquest = () => {
 
   return (
     <>
-      <div className="py-4">
+      <div className="py-2">
         <div className="w-full overflow-hidden p-5 rounded-b-2xl shadow-3xl">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-pops font-semibold">Friend Request</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll  h-[300px]">
+          <div className="overflow-y-scroll h-[200px]">
             {sentRequest.map((item) => (
               <div
                 key={item}
                 className="flex gap-4 items-center border-b py-[10px] first: my-3  "
               >
                 <img
-                  src="../../../src/assets/profile_img.jpg"
+                  src={item.senderphoto}
                   alt="name"
                   className="w-[50px] h-[50px] rounded-full"
                 />

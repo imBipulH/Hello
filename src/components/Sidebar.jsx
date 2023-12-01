@@ -50,9 +50,10 @@ const Sidebar = () => {
       setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
       const storage = getStorage();
       const storageRef = ref(storage, data.uid);
-      const message4 = cropperRef.current?.cropper
+      /*   const message4 = cropperRef.current?.cropper
         .getCroppedCanvas()
-        .toDataURL();
+        .toDataURL(); */
+      const message4 = cropData;
       uploadString(storageRef, message4, "data_url").then(() => {
         getDownloadURL(storageRef).then((downloadURL) => {
           setProfilePhoto(downloadURL);
@@ -85,7 +86,7 @@ const Sidebar = () => {
     <>
       {profileModal ? (
         <>
-          <div className="absolute h-screen w-full bg-red-400 flex justify-center items-center">
+          <div className="absolute h-[100dvh] w-full bg-red-400 flex justify-center items-center">
             <div className="bg-white rounded p-5">
               <h1 className="text-4xl mb-4">Change Profile Picture</h1>
               <input
@@ -94,7 +95,7 @@ const Sidebar = () => {
                 className="block m-auto mb-5"
               />
 
-              <div className="h-[120px] w-[120px] rounded-full m-auto overflow-hidden">
+              <div className="h-[100px] w-[100px] rounded-full m-auto overflow-hidden">
                 <div
                   className="img-preview
                 "
@@ -152,26 +153,26 @@ const Sidebar = () => {
               <BiUpload className="group-hover:block hidden" />
             </div>
           </div>
-          <h2 className="text-lg text-white mb-16 font-pops font-semibold text-center">
+          <h2 className="text-lg text-white mb-6 font-pops font-semibold text-center">
             {data.displayName}
           </h2>
           <div className="flex h-full  justify-between flex-col">
-            <div className="mb-20 flex flex-col gap-4">
-              <div className=" ml-6 py-5 pl-6 relative after:absolute after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+            <div className=" flex flex-col gap-3">
+              <div className="ml-5 py-2 pl-5 relative after:absolute after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
                 <LiaHomeSolid className="text-3xl text-primary bg-white " />
               </div>
-              <div className="ml-6 py-5 pl-6 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+              <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
                 <AiFillMessage className="text-3xl text-white  " />
               </div>
-              <div className="ml-6 py-5 pl-6 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+              <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
                 <BsBellFill className="text-3xl text-white" />
               </div>
-              <div className="ml-6 py-5 pl-6 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+              <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
                 <AiFillSetting className="text-3xl text-white" />
               </div>
             </div>
 
-            <div className="ml-6 py-5 pl-6 mb-12 relative after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+            <div className="ml-5 py-2 pl-5 mb-12 relative after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
               <ImExit
                 onClick={handleSignOut}
                 className="text-3xl text-white cursor-pointer"

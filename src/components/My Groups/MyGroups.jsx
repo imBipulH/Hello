@@ -40,7 +40,7 @@ const MyGroups = () => {
             <h1 className="text-xl font-pops font-semibold">My Groups</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="overflow-y-scroll  h-[300px]">
+          <div className="overflow-y-scroll  h-[150px]">
             {group.map((item) => (
               <div key={item} className="flex gap-4 items-center ">
                 <img
