@@ -6,6 +6,7 @@ import { ImExit } from "react-icons/im";
 import { BiUpload } from "react-icons/bi";
 import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import {
@@ -160,16 +161,28 @@ const Sidebar = ({ active }) => {
             <div className=" flex flex-col gap-3">
               <div
                 className={`ml-5 py-2 pl-5 relative after:absolute ${
-                  active == "Home" && "after:bg-white"
-                } after:bg-primary after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}
+                  active == "Home" ? "after:bg-white" : "after:bg-primary"
+                } after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}
               >
                 <Link to="/">
-                  <LiaHomeSolid className="text-3xl text-primary bg-white " />
+                  <LiaHomeSolid
+                    className={`text-3xl ${
+                      active == "Home" ? "text-primary" : "text-white"
+                    }`}
+                  />
                 </Link>
               </div>
-              <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
+              <div
+                className={`ml-5 py-2 pl-5 relative after:absolute ${
+                  active == "Message" ? "after:bg-white" : "after:bg-primary"
+                } after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}
+              >
                 <Link to="/Message">
-                  <AiFillMessage className="text-3xl text-white" />
+                  <AiFillMessage
+                    className={`text-3xl ${
+                      active == "Message" ? "text-primary" : "text-white"
+                    }`}
+                  />
                 </Link>
               </div>
               <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
@@ -191,6 +204,10 @@ const Sidebar = ({ active }) => {
       )}
     </>
   );
+};
+
+Sidebar.propTypes = {
+  active: PropTypes.string,
 };
 
 export default Sidebar;

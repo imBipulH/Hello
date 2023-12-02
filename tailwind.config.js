@@ -6,6 +6,9 @@ export default {
       animation: {
         shake: "shake 0.5s ease-in-out",
       },
+      maxwidth: {
+        container: "1440px",
+      },
       keyframes: {
         shake: {
           "0%,50%, 100%": { transform: "translate(0px, 0px)" },
