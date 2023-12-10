@@ -8,46 +8,13 @@ import {
   remove,
 } from "firebase/database";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FiSearch } from "react-icons/fi";
-
-/* const JoinBtn = () => {
-  return (
-    <>
-      <button className="px-[22px] h-[30px] bg-primary text-white text-xl font-semibold rounded-md">
-        Block
-      </button>
-    </>
-  );
-}; */
-
-/* const ListItem = () => {
-  return (
-    <>
-      <div className="flex gap-4 items-center border-b py-[10px] first: my-3  ">
-        <img
-          src="../../../src/assets/profile_img.jpg"
-          alt="name"
-          className="w-[70px] h-[70px] rounded-full"
-        />
-        <div className="flex w-full justify-between items-center">
-          <div className="">
-            <p className="text-lg font-pops font-semibold">Bipul Hajong</p>
-            <p className="text-lightGray text-sm font-pops font-medium">
-              Hi Guys, what's up.
-            </p>
-          </div>
-          <div>
-            <JoinBtn />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}; */
+import { activeChat } from "../../slices/activeChatSlice";
 
 const Friends = () => {
   const db = getDatabase();
+  const dispatch = useDispatch();
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   const [friends, setFriends] = useState([]);
 
@@ -66,7 +33,6 @@ const Friends = () => {
       setFriends(arr);
     });
   }, []);
-  console.log(friends);
 
   //Block Button
 
@@ -81,7 +47,7 @@ const Friends = () => {
           blockById: item.senderid,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
-        }),
+        })
       );
     } else {
       set(
@@ -92,7 +58,25 @@ const Friends = () => {
           blockById: item.receiverid,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
-        }),
+        })
+      );
+    }
+  };
+
+  const handleMsgData = (item) => {
+    if (data.uid == item.receiverid) {
+      dispatch(
+        activeChat({
+          name: item.sendername,
+          id: item.senderid,
+        })
+      );
+    } else {
+      dispatch(
+        activeChat({
+          name: item.receivername,
+          id: item.receiverid,
+        })
       );
     }
   };
@@ -126,7 +110,7 @@ const Friends = () => {
                     className="w-[40px] h-[40px] rounded-full"
                   />
                   <div className="flex w-full justify-between items-center">
-                    <div className="">
+                    <div onClick={() => handleMsgData(item)} className="">
                       <p className="text-lg font-pops font-semibold">
                         {item.receiverid === data.uid
                           ? item.sendername

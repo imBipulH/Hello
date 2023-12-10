@@ -84,7 +84,7 @@ const GroupList = () => {
   return (
     <>
       <div className="h-full">
-        <div className="w-full h-full p-5 rounded-b-2xl shadow-3xl">
+        <div className="w-full h-full px-5 py-3 rounded-b-2xl shadow-3xl">
           <div className="flex justify-between items-cente mb-4">
             <h1 className="text-xl font-pops font-semibold">Group List</h1>
             {!show ? (
