@@ -39,8 +39,8 @@ const Home = () => {
         <div className="max-w-[1320px] m-auto ">
           <div className="flex">
             <Sidebar active="Home" />
-            <div className="w-[1180px] flex flex-col items-between justify-between m-auto">
-              <div className="flex h-1/2 gap-4 items-center mb-2 justify-between">
+            <div className="w-[1180px] flex flex-col gap-3 items-between justify-between m-auto">
+              <div className="flex h-1/2 gap-2 items-center mb-0 justify-between">
                 <div className="w-1/3">
                   <GroupList />
                 </div>
@@ -51,7 +51,7 @@ const Home = () => {
                   <UserList />
                 </div>
               </div>
-              <div className="flex gap-4 justify-between">
+              <div className="flex h-1/2 gap-2 justify-between">
                 <div className="w-1/3">
                   <FriendRquest />
                 </div>

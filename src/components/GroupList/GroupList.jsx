@@ -104,7 +104,7 @@ const GroupList = () => {
             )}
           </div>
 
-          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-5">
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-0 py-2 px-5">
             <input
               type="text"
               className="w-full px-2 outline-none"

@@ -3,19 +3,49 @@ import { MdEmojiEmotions } from "react-icons/md";
 import { FaImage } from "react-icons/fa6";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useState } from "react";
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase, onValue, push, ref, set } from "firebase/database";
+import { useEffect } from "react";
 
 const Chatbox = () => {
   const db = getDatabase();
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   const activeData = useSelector((state) => state.activeChat.active);
+  console.log(activeData);
+  console.log(activeData.id);
   const [msg, setMsg] = useState("");
+  const [singleMsg, setSingleMsg] = useState([]);
 
   const handleMsg = () => {
-    set(push(ref(db, "singleMsg")), {
-      msg: msg,
-    });
+    if (activeData.status == "single") {
+      set(push(ref(db, "singleMsg")), {
+        msg: msg,
+        msgSenderId: data.uid,
+        msgSenderName: data.displayName,
+        msgReceiverId: activeData.id,
+        msgReceiverName: activeData.name,
+      });
+    } else {
+      console.log("This is group message");
+    }
   };
+
+  useEffect(() => {
+    const singleMsgRef = ref(db, "singleMsg/");
+    onValue(singleMsgRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        if (
+          (item.val().msgSenderId == data.uid &&
+            item.val().msgReceiverId == activeData.id) ||
+          (item.val().msgReceiverId == data.uid &&
+            item.val().msgSenderId == activeData.id)
+        ) {
+          arr.push(item.val());
+        }
+      });
+      setSingleMsg(arr);
+    });
+  }, []);
 
   return (
     <>
@@ -35,25 +65,43 @@ const Chatbox = () => {
         </div>
         <div>
           <div className="bg-gray-200 w-full h-[500px] p-4 mt-4 overflow-y-scroll">
-            {/* Receiver Msg */}
-            <div className="max-w-[500px]">
-              <p className="bg-white ml-4 px-8 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-white before:rounded-md before:bottom-0 before:left-[-15px]  */">
-                loreamer dfsd;lf s;f ldsjfdsjf jfj dsjfds
-                fksdkfjdskfjdskjfkdsjfkldjfkl sdfsdhf s fksdj fklds ffh sfh
-                sdjkhf jsdkhf khfjkds jf asjjf ashfjk
-              </p>
-              <p className="text-gray-700 mt-2 ml-4 text-sm">Today, 2:02pm</p>
-            </div>
+            {singleMsg.map((item) =>
+              item.msgSenderId == data.uid ? (
+                <div key={item} className="flex justify-end">
+                  <div className="mt-4 max-w-[500px]">
+                    <p className="bg-primary max-w-[500px] text-white mr-4 px-8 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-primary before:rounded-md before:bottom-0 before:right-[-15px]  */">
+                      {item.msg}
+                    </p>
+                    <p className="text-gray-700 mt-1 mr-4 text-right text-sm">
+                      Today, 2:02pm
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div key={item} className=" mt-4 max-w-[500px]">
+                  <p className="bg-white ml-4 px-8 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-white before:rounded-md before:bottom-0 before:left-[-15px]  */">
+                    {item.msg}
+                  </p>
+                  <p className="text-gray-700 mt-2 ml-4 text-sm">
+                    Today, 2:02pm
+                  </p>
+                </div>
+              )
+            )}
+
+            {/*      {/* Receiver Msg */}
+
             {/* Receiver Msg Start */}
-            <div className="mt-2 max-w-[500px]">
+            {/*         <div className="mt-2 max-w-[500px]">
               <p className="bg-white ml-4 px-8 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-white before:rounded-md before:bottom-0 before:left-[-15px]">
                 How are you!
               </p>
               <p className="text-gray-700 mt-2 ml-4 text-sm">Today, 2:02pm</p>
-            </div>
+            </div> */}
             {/* Receiver Msg End */}
+
             {/* Receiver Msg Start */}
-            <div className="mt-6">
+            {/*            <div className="mt-6">
               <div className=" bg-white ml-4 px-4 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-white before:rounded-md before:bottom-0 before:left-[-15px]">
                 <ModalImage
                   small="../../../src/assets/Girl_Browsing_Phone.png"
@@ -63,12 +111,11 @@ const Chatbox = () => {
                 />
               </div>{" "}
               <p className="text-gray-700 mt-2 ml-4 text-sm">Today, 2:02pm</p>
-            </div>
+            </div> */}
             {/* Receiver Msg End */}
 
             {/* Sender Msg Start */}
-
-            <div className="flex justify-end">
+            {/*             <div className="flex justify-end">
               <div className="mt-6">
                 <div className=" bg-primary ml-4 px-4 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-primary before:rounded-md before:bottom-0 before:right-[-15px]">
                   <ModalImage
@@ -81,42 +128,15 @@ const Chatbox = () => {
                   Today, 2:02pm
                 </p>
               </div>
-            </div>
+            </div> */}
             {/* Sender Msg End */}
 
             {/* Sender Msg Start */}
-            <div className="flex justify-end">
-              <div className="mt-4 max-w-[500px]">
-                <p className="bg-primary max-w-[500px] text-white mr-4 px-8 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-primary before:rounded-md before:bottom-0 before:right-[-15px]  */">
-                  How are you! dfsdf sdfsdkf dskf sdf dslflds fldsf dslfsdl f
-                  fdslfj dsklf dsf dsf sdlf dsf dslkf dsf ds fds fds fkds
-                  fsdflds fdsf sdf dsf dsf dsf ds fsd f fjdskf dsjfs dfjksdh
-                  fjkdshfkjdsf dskjfhsdk fdsfsd fjkd fdskf sdjkfhjskfhjsk
-                  fdsfhsjd fjkdhfjksdhfjksdfsd fs dsf sd f sf sdf ds fjdshfdsh
-                  fk s fdsf
-                </p>
-                <p className="text-gray-700 mt-1 mr-4 text-right text-sm">
-                  Today, 2:02pm
-                </p>
-              </div>
-            </div>
+
             {/* Sender Msg End */}
+
             {/* Sender Msg Start */}
-            <div className="flex justify-end">
-              <div className="mt-4 max-w-[500px]">
-                <p className="bg-primary max-w-[500px] text-white mr-4 px-8 py-4 inline-block rounded-md  relative before:content-[''] before:border-[18px] before:border-transparent before:absolute before:w-0 before:h-0 before:border-b-primary before:rounded-md before:bottom-0 before:right-[-15px]  */">
-                  How are you! dfsdf sdfsdkf dskf sdf dslflds fldsf dslfsdl f
-                  fdslfj dsklf dsf dsf sdlf dsf dslkf dsf ds fds fds fkds
-                  fsdflds fdsf sdf dsf dsf dsf ds fsd f fjdskf dsjfs dfjksdh
-                  fjkdshfkjdsf dskjfhsdk fdsfsd fjkd fdskf sdjkfhjskfhjsk
-                  fdsfhsjd fjkdhfjksdhfjksdfsd fs dsf sd f sf sdf ds fjdshfdsh
-                  fk s fdsf
-                </p>
-                <p className="text-gray-700 mt-1 mr-4 text-right text-sm">
-                  Today, 2:02pm
-                </p>
-              </div>
-            </div>
+
             {/* Sender Msg End */}
           </div>
         </div>

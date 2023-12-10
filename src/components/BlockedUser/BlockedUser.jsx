@@ -60,11 +60,13 @@ const BlockedUser = () => {
           arr.push({
             block: item.val().blockName,
             blockId: item.val().blockId,
+            blockPhoto: item.val().blockPhoto,
           });
         } else {
           arr.push({
             blockBy: item.val().blockBy,
-            blockById: item.val().blockById,
+            blockById: item.val().blockPhoto,
+            blockByPhoto: item.val().blockByPhoto,
           });
         }
         setBlockList(arr);
@@ -80,8 +82,10 @@ const BlockedUser = () => {
         sendername: data.displayName,
         senderemail: data.email,
         senderid: data.uid,
+        senderphoto: data.photoURL,
         receivername: item.block,
         receiverid: item.blockId,
+        receiverphoto: item.blockPhoto,
       }).then(() => {
         remove(ref(db, "block/", item.blockId)).then(() => {
           setBlockList((prevBlockList) => {
@@ -90,13 +94,13 @@ const BlockedUser = () => {
             });
           });
         });
-      }),
+      })
     );
   };
 
   return (
     <>
-      <div className="py-4">
+      <div className="py-0">
         <div className="w-full overflow-hidden p-5 rounded-b-2xl shadow-3xl">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-pops font-semibold">Blocked User</h1>
@@ -110,7 +114,7 @@ const BlockedUser = () => {
             />
             <FiSearch className="text-xl select-none" />
           </div>
-          <div className="overflow-y-scroll  h-[220px]">
+          <div className="overflow-y-scroll  h-[200px]">
             {blockList &&
               blockList.map((item) => (
                 <div
@@ -118,7 +122,11 @@ const BlockedUser = () => {
                   className="flex gap-4 items-center border-b py-[10px] first: my-3  "
                 >
                   <img
-                    src="../../../src/assets/profile_img.jpg"
+                    src={
+                      data.uid == item.blockId
+                        ? item.blockByPhoto
+                        : item.blockPhoto
+                    }
                     alt="name"
                     className="w-[50px] h-[50px] rounded-full"
                   />

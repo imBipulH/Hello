@@ -35,7 +35,7 @@ const MyGroups = () => {
 
   return (
     <>
-      <div className="py-4">
+      <div className="py-0">
         <div className="w-full  overflow-hidden p-5 rounded-b-2xl shadow-3xl">
           <div className="flex justify-between items-center mb-2">
             <h1 className="text-xl font-pops font-semibold">My Groups</h1>
@@ -49,9 +49,9 @@ const MyGroups = () => {
             />
             <FiSearch className="text-xl select-none" />
           </div>
-          <div className="overflow-y-scroll  h-[220px]">
+          <div className="overflow-y-scroll  h-[200px]">
             {group.map((item) => (
-              <div key={item} className="flex gap-4 items-center ">
+              <div key={item} className="flex gap-4 items-center mb-4">
                 <img
                   src="../../../src/assets/profile_img.jpg"
                   alt="name"

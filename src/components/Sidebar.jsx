@@ -21,8 +21,6 @@ import { useSelector } from "react-redux";
 const Sidebar = ({ active }) => {
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   const db = getDatabase();
-  console.log(data.photoURL);
-  console.log(data.uid);
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const [profilePhoto, setProfilePhoto] = useState("");
@@ -59,16 +57,15 @@ const Sidebar = ({ active }) => {
       const message4 = cropData;
       uploadString(storageRef, message4, "data_url").then(() => {
         getDownloadURL(storageRef).then((downloadURL) => {
-
           setProfilePhoto(downloadURL);
           setProfileModal(false);
           updateProfile(auth.currentUser, {
             photoURL: downloadURL,
           }).then(() => {
-            update(dref(db, 'users/' + data.uid), {
-              dp: downloadURL
-            })
-          })
+            update(dref(db, "users/" + data.uid), {
+              dp: downloadURL,
+            });
+          });
         });
       });
     }
@@ -148,7 +145,7 @@ const Sidebar = ({ active }) => {
         </>
       ) : (
         <div className="w-[100px] bg-primary select-none rounded-[20px] flex justify-left flex-col h-screen">
-          <div className="flex select-none h-[100px] w-[100px] group m-auto rounded-full justify-center mt-[38px] mb-[16px] relative  ">
+          <div className="flex select-none h-[80px] w-[80px] group m-auto rounded-full justify-center mt-[38px] mb-[16px] relative  ">
             <img
               className="h-[80px] w-[80px] rounded-full"
               src={data.photoURL}
@@ -167,17 +164,29 @@ const Sidebar = ({ active }) => {
           <div className="flex h-full  justify-between flex-col">
             <div className=" flex flex-col gap-3">
               <div
-                className={`ml-5 py-2 pl-5 relative after:absolute ${active == "Home" ? "after:bg-white" : "after:bg-primary"
-                  }  after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}
+                className={`ml-5 py-2 pl-5 relative after:absolute ${
+                  active == "Home" ? "after:bg-white" : "after:bg-primary"
+                }  after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}
               >
                 <Link to="/">
-                  <LiaHomeSolid className={`text-3xl ${active == "Home" ? 'text-primary' : 'text-white'} `} />
+                  <LiaHomeSolid
+                    className={`text-3xl ${
+                      active == "Home" ? "text-primary" : "text-white"
+                    } `}
+                  />
                 </Link>
               </div>
-              <div className={`ml-5 py-2 pl-5 relative after:absolute ${active == "Message" ? "after:bg-white" : "after:bg-primary"
-                }  after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}>
+              <div
+                className={`ml-5 py-2 pl-5 relative after:absolute ${
+                  active == "Message" ? "after:bg-white" : "after:bg-primary"
+                }  after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl`}
+              >
                 <Link to="/Message">
-                  <AiFillMessage className={`text-3xl ${active == "Message" ? 'text-primary' : 'text-white'} `} />
+                  <AiFillMessage
+                    className={`text-3xl ${
+                      active == "Message" ? "text-primary" : "text-white"
+                    } `}
+                  />
                 </Link>
               </div>
               <div className="ml-5 py-2 pl-5 relative  after:bg-white after:w-full after:h-full after:top-0 after:left-0 after:rounded-l-2xl after:-z-10 z-10 before:bg-primary before:absolute before:h-full before:w-2 before:top-0 before:right-0 before:rounded-l-2xl">
@@ -195,7 +204,7 @@ const Sidebar = ({ active }) => {
               />
             </div>
           </div>
-        </div >
+        </div>
       )}
     </>
   );

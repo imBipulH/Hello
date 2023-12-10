@@ -18,6 +18,7 @@ const JoinBtn = () => {
 const UserList = () => {
   const data = useSelector((state) => state.userLoginInfo.userInfo);
   console.log(data);
+  console.log(data.photoURL);
   const db = getDatabase();
   const [userLists, setUserLists] = useState([]);
   const [sentRequestLists, setSentRequestLists] = useState([]);
@@ -75,7 +76,7 @@ const UserList = () => {
     if (
       sentRequestLists.some(
         (request) =>
-          request.senderid === data.uid && request.receiverid === item.userid,
+          request.senderid === data.uid && request.receiverid === item.userid
       )
     ) {
       console.log("already sent request", item);
@@ -87,10 +88,10 @@ const UserList = () => {
         senderemail: data.email,
         senderid: data.uid,
         senderphoto: data.photoURL,
-        /*  receiverphoto: item.photoURL, */
         receivername: item.username,
         receiverid: item.userid,
         receiveremail: item.email,
+        receiverphoto: item.dp,
       });
     }
   };
@@ -113,100 +114,101 @@ const UserList = () => {
 
   return (
     <>
-      <div className="py-4">
-        <div className="w-full  overflow-hidden p-5 rounded-b-2xl shadow-3xl">
+      <div className="py-0">
+        <div className="w-full overflow-hidden px-5 py-3 rounded-b-2xl shadow-3xl">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-xl font-pops font-semibold">User List</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-5">
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-4">
             <input
+              onChange={handleSearch}
               type="text"
               className="w-full px-2 outline-none"
               placeholder="Search"
             />
             <FiSearch className="text-xl select-none" />
           </div>
-          <div className="overflow-y-scroll h-[220px]">
+          <div className="overflow-y-scroll h-[200px]">
             {searchData.length > 0
               ? searchData.map((item) => (
-                <div
-                  className="flex gap-4 items-center border-b py-[10px] first: my-3 "
-                  key={item}
-                >
-                  <img
-                    src={item.dp}
-                    alt="name"
-                    className="w-[50px] h-[50px] rounded-full"
-                  />
-                  <div className="flex w-full justify-between items-center">
-                    <div className="">
-                      <p className="text-md font-pops font-semibold">
-                        {item.username}
-                      </p>
-                      <p className="text-lightGray text-sm font-pops font-medium">
-                        {item.email}
-                      </p>
-                    </div>
-                    {friendList.includes(item.userid + data.uid) ||
-                      friendList.includes(data.uid + item.userid) ? (
-                      <button className="px-[22px] h-[30px] bg-primary text-white text-sm font-semibold rounded-md">
-                        Friend
-                      </button>
-                    ) : friendRequestList.includes(item.userid + data.uid) ||
-                      friendRequestList.includes(data.uid + item.userid) ? (
-                      <>
-                        <button className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-md">
-                          Pending
-                        </button>
-                      </>
-                    ) : (
-                      <div onClick={() => handleFriendRequest(item)}>
-                        <JoinBtn requestSent={requestSent} />
+                  <div
+                    className="flex gap-4 items-center border-b py-[10px] first: my-3 "
+                    key={item}
+                  >
+                    <img
+                      src={item.dp}
+                      alt="name"
+                      className="w-[50px] h-[50px] rounded-full"
+                    />
+                    <div className="flex w-full justify-between items-center">
+                      <div className="">
+                        <p className="text-md font-pops font-semibold">
+                          {item.username}
+                        </p>
+                        <p className="text-lightGray text-sm font-pops font-medium">
+                          {item.email}
+                        </p>
                       </div>
-                    )}
+                      {friendList.includes(item.userid + data.uid) ||
+                      friendList.includes(data.uid + item.userid) ? (
+                        <button className="px-[22px] h-[30px] bg-primary text-white text-sm font-semibold rounded-md">
+                          Friend
+                        </button>
+                      ) : friendRequestList.includes(item.userid + data.uid) ||
+                        friendRequestList.includes(data.uid + item.userid) ? (
+                        <>
+                          <button className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-md">
+                            Pending
+                          </button>
+                        </>
+                      ) : (
+                        <div onClick={() => handleFriendRequest(item)}>
+                          <JoinBtn requestSent={requestSent} />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))
+                ))
               : userLists.map((item) => (
-                <div
-                  className="flex gap-4 items-center border-b py-[10px] first: my-3 "
-                  key={item}
-                >
-                  <img
-                    src={item.dp}
-                    alt="name"
-                    className="w-[50px] h-[50px] rounded-full"
-                  />
-                  <div className="flex w-full justify-between items-center">
-                    <div className="">
-                      <p className="text-md font-pops font-semibold">
-                        {item.username}
-                      </p>
-                      <p className="text-lightGray text-sm font-pops font-medium">
-                        {item.email}
-                      </p>
-                    </div>
-                    {friendList.includes(item.userid + data.uid) ||
-                      friendList.includes(data.uid + item.userid) ? (
-                      <button className="px-[22px] h-[30px] bg-primary text-white text-sm font-semibold rounded-md">
-                        Friend
-                      </button>
-                    ) : friendRequestList.includes(item.userid + data.uid) ||
-                      friendRequestList.includes(data.uid + item.userid) ? (
-                      <>
-                        <button className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-md">
-                          Pending
-                        </button>
-                      </>
-                    ) : (
-                      <div onClick={() => handleFriendRequest(item)}>
-                        <JoinBtn requestSent={requestSent} />
+                  <div
+                    className="flex gap-4 items-center border-b py-[10px] first: my-3 "
+                    key={item}
+                  >
+                    <img
+                      src={item.dp}
+                      alt="name"
+                      className="w-[50px] h-[50px] rounded-full"
+                    />
+                    <div className="flex w-full justify-between items-center">
+                      <div className="">
+                        <p className="text-md font-pops font-semibold">
+                          {item.username}
+                        </p>
+                        <p className="text-lightGray text-sm font-pops font-medium">
+                          {item.email}
+                        </p>
                       </div>
-                    )}
+                      {friendList.includes(item.userid + data.uid) ||
+                      friendList.includes(data.uid + item.userid) ? (
+                        <button className="px-[22px] h-[30px] bg-primary text-white text-sm font-semibold rounded-md">
+                          Friend
+                        </button>
+                      ) : friendRequestList.includes(item.userid + data.uid) ||
+                        friendRequestList.includes(data.uid + item.userid) ? (
+                        <>
+                          <button className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-md">
+                            Pending
+                          </button>
+                        </>
+                      ) : (
+                        <div onClick={() => handleFriendRequest(item)}>
+                          <JoinBtn requestSent={requestSent} />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
           </div>
         </div>
       </div>

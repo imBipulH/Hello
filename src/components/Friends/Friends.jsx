@@ -43,8 +43,10 @@ const Friends = () => {
         push(ref(db, "block/"), {
           blockName: item.receivername,
           blockId: item.receiverid,
+          blockPhoto: item.receiverphoto,
           blockBy: item.sendername,
           blockById: item.senderid,
+          blockByPhoto: item.senderphoto,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
         })
@@ -54,8 +56,10 @@ const Friends = () => {
         push(ref(db, "block/"), {
           blockName: item.sendername,
           blockId: item.senderid,
+          blockPhoto: item.senderphoto,
           blockBy: item.receivername,
           blockById: item.receiverid,
+          blockByPhoto: item.receiverphoto,
         }).then(() => {
           remove(ref(db, "friend/" + item.key));
         })
@@ -67,6 +71,7 @@ const Friends = () => {
     if (data.uid == item.receiverid) {
       dispatch(
         activeChat({
+          status: 'single',
           name: item.sendername,
           id: item.senderid,
         })
@@ -74,6 +79,7 @@ const Friends = () => {
     } else {
       dispatch(
         activeChat({
+          status: 'single',
           name: item.receivername,
           id: item.receiverid,
         })
@@ -84,12 +90,12 @@ const Friends = () => {
   return (
     <>
       <div className="h-full">
-        <div className="w-full overflow-hidden p-5 rounded-b-2xl  shadow-3xl">
-          <div className="flex justify-between items-center mb-4">
+        <div className="w-full overflow-hidden px-5 py-3 rounded-b-2xl shadow-3xl">
+          <div className="flex justify-between items-center mb-3">
             <h1 className="text-xl font-pops font-semibold">Friends</h1>
             <BiDotsVerticalRounded />
           </div>
-          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-5">
+          <div className="flex items-center justify-between rounded-lg shadow-3xl mb-2 py-2 px-4">
             <input
               type="text"
               className="w-full px-2 outline-none"
@@ -97,7 +103,7 @@ const Friends = () => {
             />
             <FiSearch className="text-xl select-none" />
           </div>
-          <div className="overflow-y-scroll h-[220px]">
+          <div className="overflow-y-scroll h-[200px]">
             {friends.map((item) => {
               return (
                 <div
@@ -105,7 +111,11 @@ const Friends = () => {
                   className="flex gap-4 items-center border-b py-[10px]"
                 >
                   <img
-                    src={item.senderphoto}
+                    src={
+                      data.uid == item.senderid
+                        ? item.receiverphoto
+                        : item.senderphoto
+                    }
                     alt="name"
                     className="w-[40px] h-[40px] rounded-full"
                   />
