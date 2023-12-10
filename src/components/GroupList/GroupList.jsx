@@ -113,7 +113,7 @@ const GroupList = () => {
             <FiSearch className="text-xl select-none" />
           </div>
           <div className="flex justify-between items-center mb-3"></div>
-          <div className="flex flex-col h-[220px] overflow-y-scroll ">
+          <div className="flex flex-col h-[200px] overflow-y-scroll ">
             {show ? (
               <div className="">
                 <input
