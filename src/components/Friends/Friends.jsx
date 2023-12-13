@@ -71,17 +71,19 @@ const Friends = () => {
     if (data.uid == item.receiverid) {
       dispatch(
         activeChat({
-          status: 'single',
+          status: "single",
           name: item.sendername,
           id: item.senderid,
+          dp: item.senderphoto,
         })
       );
     } else {
       dispatch(
         activeChat({
-          status: 'single',
+          status: "single",
           name: item.receivername,
           id: item.receiverid,
+          dp: item.receiverphoto,
         })
       );
     }
